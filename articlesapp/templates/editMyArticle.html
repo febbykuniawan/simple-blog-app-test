@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit Article
+{% endblock title %}
+
+{% block header %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Simple Blog</h1>
+                        <span class="subheading">A Simple Blog</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock header %}
+
+{% block content %}
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <main class="form-signin w-100 m-auto">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <h1 class="h3 mb-3 fw-normal">Form Article</h1>
+                        {% if form.errors %}
+                            <div class="form-floating">
+                                <div class="alert alert-danger" role="alert">
+                                    <div id="form_errors">
+                                        {% for key, value in form.errors.items %}
+                                            <strong>{{ value }}</strong>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="form-floating">
+                            {{ form.title }}
+                            <label for="floatingTitle">Title article</label>
+                        </div>
+                        <div class="form-floating">
+                            {{ form.content }}
+                            <label for="floatingContent">Content article</label>
+                        </div>
+                        <button class="btn btn-primary w-100 py-2" type="submit">Update</button>
+                        <p class="mt-5 mb-3 text-center text-body-secondary">&copy; 2023</p>
+                    </form>
+                </main>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

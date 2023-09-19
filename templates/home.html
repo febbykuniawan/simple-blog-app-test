@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Home
+{% endblock title %}
+
+{% block header %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Simple Blog</h1>
+                        <span class="subheading">A Simple Blog</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock header %}
+
+{% block content %}
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <!-- Post preview-->
+                {% for article in object_list %}
+                    <div class="post-preview">
+                        <a href="{% url 'show-article' article.id %}">
+                            <h2 class="post-title">{{ article.title }}</h2>
+                            <h3 class="post-subtitle">{{ article.content|truncatechars:100 }}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="{% url 'user-profile' username=article.author%}">
+                                {% if article.author.username %}
+                                    {{ article.author.username }}
+                                {% else %}
+                                    Unknown Author
+                                {% endif %}
+                            </a>
+                            on {{ article.publication_date|date:"F j, Y" }}
+                        </p>
+                    </div>
+                    <hr class="my-4" />
+                {% endfor %}
+                <!-- Pagination-->
+                {% if object_list %}
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                            {% endif %}
+                            
+                            {% for i in page_obj.paginator.page_range %}
+                                {% if i == page_obj.number %}
+                                    <li class="page-item active" aria-current="page"><span class="page-link">{{ i }}</span></li>
+                                {% elif i >= page_obj.number|add:'-1' and i <= page_obj.number|add:'1' %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if page_obj.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

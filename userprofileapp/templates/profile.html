@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    User Profile
+{% endblock title %}
+
+{% block header %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Simple Blog</h1>
+                        <span class="subheading">A Simple Blog</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock header %}
+
+{% block content %}
+    <!-- Main Content-->
+    <div class="container px-4 py-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                        <div class="d-flex text-black">
+                            <div class="flex-shrink-0">
+                                <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static '/img/av0.png' %}{% endif %}" alt="Profile Picture" class="img-fluid" style="width: 180px; height: 180px; border-radius: 10px;">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5 class="mb-1">{{ user.username }}</h5>
+                                <p class="mb-2 pb-1" style="color: #2b2a2a;">{{ profile.bio }}</p>
+                                <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef;">
+                                    <div>
+                                        <p class="small text-muted mb-1">Articles</p>
+                                        <p class="mb-0">{{ article_count }}</p>
+                                    </div>
+                                    <div class="px-3">
+                                        <p class="small text-muted mb-1">Followers</p>
+                                        <p class="mb-0">{{ following_count }}</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex pt-1">
+                                    {% if request.user == user %}
+                                        <a href="{% url 'edit-profile' %}" class="btn btn-outline-primary flex-grow-1">Edit</a>
+                                    {% else %}
+                                        <form method="post" action="{% url 'user-profile' user.username %}">
+                                            {% csrf_token %}
+                                            {% if request.user in profile.followers.all %}
+                                                <button type="submit" name="unfollow" value="unfollow" class="btn btn-danger  me-1 flex-grow-1">Unfollow</button>
+                                            {% else %}
+                                                <button type="submit" name="follow" value="follow" class="btn btn-primary  me-1 flex-grow-1">Follow</button>
+                                            {% endif %}
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
