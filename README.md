@@ -19,17 +19,16 @@ Before you start, make sure you have the following installed:
     cd simple-blog-app-test
     ```
 
-**Build and Run the Docker Containers**
+2. **Build and Run the Docker Containers**
 
     ```bash
     docker-compose up --build
     ```
 
     Wait for the containers to be built and started.
+   
     Once you see the log message:
-
     blog_app | Watching for file changes with StatReloader`,
-    
     the application is up and running.
 
     You can now access the application at [http://127.0.0.1:8000] or (http://localhost:8000).
@@ -40,7 +39,7 @@ Before you start, make sure you have the following installed:
 
     To stop the application and shut down the containers, press `Ctrl + C` in this terminal.
 
-3. **Database Configuration**
+4. **Database Configuration**
 
     The database is configured in the `docker-compose.yml` file.
 
